@@ -5,4 +5,12 @@
   list-style: none;
   text-decoration: none;
   font-family: "Roboto", sans-serif;
+  color: var(--blfx-light-gray);
+}
+
+:root {
+  --blfx-primary: #e50914;
+  --blfx-dark: #0e0e0e;
+  --blfx-light-gray: #e5e5e5;
+  --blfx-light: #ffffff;
 }
