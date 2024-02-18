@@ -1,8 +1,13 @@
 <script>
+import { state } from "../state.js";
+import axios from "axios";
+
 export default {
   name: "AppHeader",
   data() {
     return {
+      state,
+      searchText: "",
       menu: [
         {
           text: "Home",
@@ -36,6 +41,18 @@ export default {
       this.menu.forEach((item) => (item.active = false));
       this.menu[index].active = true;
     },
+    loadData(search) {
+      console.log(state.apiUrl + "&query=" + search);
+      axios
+        .get(state.apiUrl + "&query=" + search)
+        .then((response) => {
+          state.movies = [...response.data.results];
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+      console.log(state.movies);
+    },
   },
 };
 </script>
@@ -57,7 +74,21 @@ export default {
       </div>
       <div class="right-side">
         <ul>
-          <li><i class="fa-solid fa-magnifying-glass"></i></li>
+          <li>
+            <div>
+              <input
+                type="text"
+                name="search"
+                id="search"
+                placeholder="Insert movie title"
+                v-model="searchText"
+                @keyup.enter="loadData(searchText)"
+              />
+              <button @click="loadData(searchText)">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>
+          </li>
           <li><a href="#">Bambini</a></li>
           <li><i class="fa-regular fa-bell"></i></li>
           <li><img src="../assets/img/user.jpg" alt="user" /></li>
@@ -69,13 +100,13 @@ export default {
 
 <style scoped>
 header {
+  position: fixed;
+  width: 100%;
   background: var(--blfx-dark);
   padding-block: 20px;
 }
 
 .container {
-  width: 90%;
-  margin-inline: auto;
   display: flex;
   justify-content: space-between;
 }
@@ -113,6 +144,20 @@ img {
       img {
         aspect-ratio: 1;
         width: 32px;
+      }
+      input {
+        color: var(--blfx-dark);
+        padding: 0.5rem;
+        margin-right: 0.5rem;
+      }
+      button {
+        background: transparent;
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        overflow: visible;
+        cursor: pointer;
       }
     }
   }
