@@ -54,11 +54,36 @@ export default {
         >
         </i>
       </div>
+      <label>Trama:</label>
+      <div class="overview">{{ movie.overview }}</div>
     </div>
   </div>
 </template>
 
 <style scoped>
+::-webkit-scrollbar {
+  width: 10px;
+  /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 50%);
+  /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--blfx-primary);
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid var(--blfx-dark);
+  /* creates padding around scroll thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+}
+
 .card {
   position: relative;
   height: 100%;
@@ -73,33 +98,39 @@ export default {
 }
 
 .movie-info {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  overflow-y: scroll;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1rem;
+  padding-top: 0;
+  border: 1px solid var(--blfx-light);
+  background: rgba(0, 0, 0, 0.65);
+  width: 100%;
+  height: 100%;
+  transition: all linear 0.5s;
+  bag .lang img {
+    width: 25px;
+  }
+  i {
+    color: var(--blfx-star);
+  }
 }
 
 .card:hover {
   scale: 1.05;
   .movie-info {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 1rem;
-    padding-top: 0;
-    border: 1px solid var(--blfx-light);
-    background: rgba(0, 0, 0, 0.65);
-    width: 100%;
-    height: 100%;
-    bag .lang img {
-      width: 25px;
-    }
-    i {
-      color: var(--blfx-star);
-    }
+    visibility: visible;
+    opacity: 1;
   }
 }
 
 label {
   display: block;
   margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--blfx-light);
 }
 </style>

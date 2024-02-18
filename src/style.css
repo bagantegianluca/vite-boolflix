@@ -16,6 +16,29 @@
   --blfx-light: #ffffff;
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+  /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, .85);
+  /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--blfx-primary);
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid var(--blfx-dark);
+  /* creates padding around scroll thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+}
+
 img {
   max-width: 100%;
   object-fit: cover;
