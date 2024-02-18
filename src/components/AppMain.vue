@@ -74,4 +74,30 @@ h3 {
   width: calc(100% / 6);
   padding: 1rem 0.5rem;
 }
+
+@media screen and (max-width: 1600px) {
+  .col {
+    width: 20%;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .col {
+    width: 25%;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .col {
+    width: calc(100% / 3);
+  }
+}
+@media screen and (max-width: 750px) {
+  .col {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .col {
+    width: 100%;
+  }
+}
 </style>

@@ -88,8 +88,6 @@ export default {
   position: relative;
   height: 100%;
   transition: all 0.25s;
-  border: 1px solid black;
-  box-shadow: 0px 0px 0px 1px var(--blfx-light) inset;
   img {
     height: 100%;
     object-fit: cover;
@@ -100,7 +98,7 @@ export default {
 .movie-info {
   visibility: hidden;
   opacity: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: absolute;
   top: 0;
   left: 0;
@@ -132,5 +130,8 @@ label {
   margin-top: 1rem;
   font-size: 0.75rem;
   color: var(--blfx-light);
+}
+.overview {
+  font-size: 0.9rem;
 }
 </style>
