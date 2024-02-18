@@ -1,9 +1,13 @@
 <script>
 import { state } from "../state.js";
 import axios from "axios";
+import AppCard from "./AppCard.vue";
 
 export default {
   name: "AppMain",
+  components: {
+    AppCard,
+  },
   data() {
     return {
       state,
@@ -27,23 +31,11 @@ export default {
     <div class="container">
       <h2>Film ricercati</h2>
       <div class="row">
-        <div class="col" v-for="movie in state.movies">
-          <div class="card">
-            <img
-              :src="
-                'https://api.themoviedb.org/3/movie/' +
-                movie.id +
-                '/images/' +
-                movie.poster_path
-              "
-              :alt="movie.title.replaceAll(' ', '-')"
-            />
-            <h3>titolo: {{ movie.title }}</h3>
-            <h3>titolo originale: {{ movie.original_title }}</h3>
-            <div class="lang">lingua orig.: {{ movie.original_language }}</div>
-            <div class="vote">voto: {{ movie.vote_average }}</div>
-            <div class="id">id: {{ movie.id }}</div>
-          </div>
+        <h3 v-if="state.movies.length === 0">
+          Nessun film selezionato con la ricerca effettuata
+        </h3>
+        <div class="col" v-for="movie in state.movies" v-else>
+          <AppCard :movie="movie"></AppCard>
         </div>
       </div>
     </div>
@@ -57,15 +49,21 @@ main {
   min-height: 100vh;
 }
 
+h2 {
+  margin-bottom: 1rem;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
   margin-inline: -1rem;
 }
 
+h3 {
+  margin-inline: 1rem;
+}
 .col {
-  width: 25%;
-  padding: 1rem;
-  border: 1px solid var(--blfx-light);
+  width: calc(100% / 6);
+  padding: 1rem 0.5rem;
 }
 </style>

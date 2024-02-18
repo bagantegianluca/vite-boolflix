@@ -42,7 +42,6 @@ export default {
       this.menu[index].active = true;
     },
     loadData(search) {
-      console.log(state.apiUrl + "&query=" + search);
       axios
         .get(state.apiUrl + "&query=" + search)
         .then((response) => {
@@ -51,7 +50,6 @@ export default {
         .catch((error) => {
           console.error(error.message);
         });
-      console.log(state.movies);
     },
   },
 };
@@ -101,6 +99,7 @@ export default {
 <style scoped>
 header {
   position: fixed;
+  z-index: 1000;
   width: 100%;
   background: var(--blfx-dark);
   padding-block: 20px;
@@ -147,7 +146,7 @@ img {
       }
       input {
         color: var(--blfx-dark);
-        padding: 0.5rem;
+        padding: 0.25rem;
         margin-right: 0.5rem;
       }
       button {
@@ -158,6 +157,9 @@ img {
         width: auto;
         overflow: visible;
         cursor: pointer;
+        i {
+          font-size: 1.2rem;
+        }
       }
     }
   }
