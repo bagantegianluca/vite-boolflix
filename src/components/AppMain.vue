@@ -15,7 +15,15 @@ export default {
   },
   mounted() {
     axios
-      .get(state.apiUrl)
+      .get(state.moviesApiUrl)
+      .then((response) => {
+        state.movies = response.data.results;
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+    axios
+      .get(state.tvApiUrl)
       .then((response) => {
         state.movies = response.data.results;
       })

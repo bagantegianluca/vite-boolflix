@@ -43,14 +43,40 @@ export default {
     },
     loadData(search) {
       axios
-        .get(state.apiUrl + "&query=" + search)
+        .get(state.moviesApiUrl + "&query=" + search)
         .then((response) => {
           state.movies = [...response.data.results];
         })
         .catch((error) => {
           console.error(error.message);
         });
+      axios
+        .get(state.tvApiUrl + "&query=" + search)
+        .then((response) => {
+          state.movies.push(...response.data.results);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
     },
+  },
+  mounted() {
+    axios
+      .get(state.moviesApiUrl + "&query=signore")
+      .then((response) => {
+        state.movies = [...response.data.results];
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+    axios
+      .get(state.tvApiUrl + "&query=signore")
+      .then((response) => {
+        state.movies.push(...response.data.results);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   },
 };
 </script>
@@ -78,7 +104,7 @@ export default {
                 type="text"
                 name="search"
                 id="search"
-                placeholder="Insert movie title"
+                placeholder="Titolo film o serie TV"
                 v-model="searchText"
                 @keyup.enter="loadData(searchText)"
               />
