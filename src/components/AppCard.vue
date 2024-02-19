@@ -15,7 +15,7 @@ export default {
 <template>
   <div class="card">
     <img
-      onerror="this.onerror=null; this.src='../src/assets/img/no-image.png'"
+      onerror="this.onerror=null; this.src='../src/assets/img/no-image.jpg'"
       :src="'https://image.tmdb.org/t/p/w342/' + movie.poster_path"
       :alt="
         movie.hasOwnProperty('title')
@@ -89,7 +89,8 @@ export default {
   height: 100%;
   transition: all 0.25s;
   img {
-    height: 100%;
+    aspect-ratio: 1 / 1.5;
+    /* height: 100%; */
     object-fit: cover;
     object-position: center;
   }
@@ -109,9 +110,6 @@ export default {
   width: 100%;
   height: 100%;
   transition: all linear 0.5s;
-  bag .lang img {
-    width: 25px;
-  }
   i {
     color: var(--blfx-star);
   }

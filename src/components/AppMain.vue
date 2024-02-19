@@ -13,7 +13,7 @@ export default {
       state,
     };
   },
-  mounted() {
+  created() {
     axios
       .get(state.moviesApiUrl)
       .then((response) => {
@@ -37,9 +37,12 @@ export default {
 <template>
   <main>
     <div class="container">
-      <h2>Film ricercati</h2>
+      <h2 v-if="state.lastResearch">
+        Film ricercati per '{{ state.lastResearch }}'
+      </h2>
+      <h2 v-else>&nbsp;</h2>
       <div class="row">
-        <h3 v-if="state.movies.length === 0">
+        <h3 v-if="state.movies.length === 0 && state.lastResearch !== ''">
           Nessun film selezionato con la ricerca effettuata
         </h3>
         <div class="col" v-for="movie in state.movies" v-else>

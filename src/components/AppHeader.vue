@@ -7,7 +7,6 @@ export default {
   data() {
     return {
       state,
-      searchText: "",
       menu: [
         {
           text: "Home",
@@ -58,6 +57,8 @@ export default {
         .catch((error) => {
           console.error(error.message);
         });
+      state.lastResearch = state.searchText;
+      state.searchText = "";
     },
   },
   mounted() {
@@ -105,10 +106,10 @@ export default {
                 name="search"
                 id="search"
                 placeholder="Titolo film o serie TV"
-                v-model="searchText"
-                @keyup.enter="loadData(searchText)"
+                v-model="state.searchText"
+                @keyup.enter="loadData(state.searchText)"
               />
-              <button @click="loadData(searchText)">
+              <button @click="loadData(state.searchText)">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
             </div>
