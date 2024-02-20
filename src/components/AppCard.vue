@@ -7,7 +7,9 @@ export default {
   name: "AppCard",
   data() {
     return {
+      type: "",
       cast: [],
+      genres: [],
     };
   },
   components: {
@@ -17,6 +19,36 @@ export default {
     movie: Object,
   },
   methods: {
+    getMovieTitle(movie) {
+      return movie.hasOwnProperty("title") ? movie.title : movie.name;
+    },
+    getMovieOriginalTitle(movie) {
+      return movie.hasOwnProperty("title")
+        ? movie.original_title
+        : movie.original_name;
+    },
+    getMovieTvType(movie) {
+      this.type = movie.hasOwnProperty("title") ? "Film" : "Serie TV";
+      return this.type;
+    },
+    getGenres(ids) {
+      axios
+        .get(
+          state.genreApiUrl.replace(
+            "{movie/tv}",
+            this.type === "Film" ? "movie" : "tv"
+          )
+        )
+        .then((response) => {
+          this.genres = response.data.genres
+            .filter((genre) => ids.includes(genre.id))
+            .map((genre) => genre.name);
+          console.log(this.genres);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    },
     getCast(id) {
       this.cast = [];
       axios
@@ -36,7 +68,13 @@ export default {
 </script>
 
 <template>
-  <div class="card" @mouseenter="getCast(movie.id)">
+  <div
+    class="card"
+    @mouseenter="
+      getCast(movie.id);
+      getGenres(movie.genre_ids);
+    "
+  >
     <img
       onerror="this.onerror=null; this.src='../src/assets/img/no-image.jpg'"
       :src="'https://image.tmdb.org/t/p/w342/' + movie.poster_path"
@@ -48,25 +86,29 @@ export default {
     />
     <div class="movie-info">
       <label>Titolo:</label>
-      <h3>{{ movie.hasOwnProperty("title") ? movie.title : movie.name }}</h3>
+      <h3>{{ getMovieTitle(movie) }}</h3>
+
       <label>Titolo originale:</label>
-      <h4>
-        {{
-          movie.hasOwnProperty("title")
-            ? movie.original_title
-            : movie.original_name
-        }}
-      </h4>
+      <h4>{{ getMovieOriginalTitle(movie) }}</h4>
+
+      <label>Genere:</label>
+      <div class="genre">
+        {{ genres.join(", ") }}
+      </div>
+
       <label>Cast</label>
       <div class="cast">{{ cast.join(", ") }}</div>
+
       <label>Tipo:</label>
       <div class="type">
-        {{ movie.hasOwnProperty("title") ? "Film" : "Serie TV" }}
+        {{ getMovieTvType(movie) }}
       </div>
+
       <label>Lingua:</label>
       <lang-flag
         :iso="movie.original_language === 'cn' ? 'zh' : movie.original_language"
       />
+
       <label>Valutazione:</label>
       <div class="vote">
         <i
@@ -79,6 +121,7 @@ export default {
         >
         </i>
       </div>
+
       <label>Trama:</label>
       <div class="overview">{{ movie.overview }}</div>
     </div>
