@@ -56,7 +56,7 @@ export default {
 <style scoped>
 main {
   background: var(--blfx-dark);
-  padding-top: 100px;
+  padding-block: 100px;
   min-height: 100vh;
 }
 

@@ -1,19 +1,42 @@
 <script>
+import { state } from "../state.js";
+import axios from "axios";
 import LangFlag from "vue-lang-code-flags";
 
 export default {
   name: "AppCard",
+  data() {
+    return {
+      cast: [],
+    };
+  },
   components: {
     LangFlag,
   },
   props: {
     movie: Object,
   },
+  methods: {
+    getCast(id) {
+      this.cast = [];
+      axios
+        .get(state.castApiUrl.replace("{movie_id}", id))
+        .then((response) => {
+          for (let i = 0; i < 5; i++) {
+            this.cast.push(response.data.cast[i].name);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message);
+          this.cast.push("N.D.");
+        });
+    },
+  },
 };
 </script>
 
 <template>
-  <div class="card">
+  <div class="card" @mouseenter="getCast(movie.id)">
     <img
       onerror="this.onerror=null; this.src='../src/assets/img/no-image.jpg'"
       :src="'https://image.tmdb.org/t/p/w342/' + movie.poster_path"
@@ -34,6 +57,8 @@ export default {
             : movie.original_name
         }}
       </h4>
+      <label>Cast</label>
+      <div class="cast">{{ cast.join(", ") }}</div>
       <label>Tipo:</label>
       <div class="type">
         {{ movie.hasOwnProperty("title") ? "Film" : "Serie TV" }}
@@ -104,7 +129,7 @@ export default {
   top: 0;
   left: 0;
   padding: 1rem;
-  padding-top: 0;
+  padding-top: 0.5rem;
   border: 1px solid var(--blfx-light);
   background: rgba(0, 0, 0, 0.65);
   width: 100%;
@@ -125,7 +150,7 @@ export default {
 
 label {
   display: block;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   font-size: 0.75rem;
   color: var(--blfx-light);
 }
